@@ -1,8 +1,8 @@
-package com.pw.ejb.cc.commons.command.remote;
+package pw.rpc.service.exporter.commons.command;
 
 import java.lang.reflect.Method;
 
-import com.pw.ejb.cc.commons.proxy.ICommand;
+import pw.rpc.service.exporter.commons.proxy.ICommand;
 
 public class RemoteCommand implements ICommand {
 

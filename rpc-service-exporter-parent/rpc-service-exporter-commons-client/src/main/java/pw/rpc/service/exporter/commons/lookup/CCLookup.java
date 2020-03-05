@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.lookup;
+package pw.rpc.service.exporter.commons.lookup;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,7 +13,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import com.pw.ejb.cc.commons.serialization.SerializationUtil;
+import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public class CCLookup {
 

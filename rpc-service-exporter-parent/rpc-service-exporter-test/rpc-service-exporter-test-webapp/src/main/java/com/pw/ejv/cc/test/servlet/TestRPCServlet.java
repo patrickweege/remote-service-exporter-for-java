@@ -4,7 +4,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import com.pw.ejb.cc.commons.rpc.servlet.AbstractRPCServlet;
+import pw.rpc.service.exporter.commons.servlet.AbstractRPCServlet;
 
 @WebServlet(urlPatterns = { "/rpc/*" })
 @MultipartConfig

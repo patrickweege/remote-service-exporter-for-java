@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.serialization;
+package pw.rpc.service.exporter.commons.serialization;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

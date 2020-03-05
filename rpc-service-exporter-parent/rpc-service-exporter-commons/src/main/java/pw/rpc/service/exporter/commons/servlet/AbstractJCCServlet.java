@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.rpc.servlet;
+package pw.rpc.service.exporter.commons.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 
-import com.pw.ejb.cc.commons.serialization.SerializationUtil;
+import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public abstract class AbstractJCCServlet extends HttpServlet {
 

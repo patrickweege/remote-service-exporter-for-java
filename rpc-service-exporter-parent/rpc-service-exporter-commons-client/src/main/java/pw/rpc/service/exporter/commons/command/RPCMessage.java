@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.command.remote;
+package pw.rpc.service.exporter.commons.command;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import com.pw.ejb.cc.commons.serialization.SerializationUtil;
+import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public class RPCMessage implements Serializable {
 

@@ -21,6 +21,7 @@
 
 	<modules>
 		<module>rpc-service-exporter-commons</module>
+		<module>rpc-service-exporter-commons-client</module>
 		<module>rpc-service-exporter-logging</module>
 		<module>rpc-service-exporter-test</module>
 	</modules>

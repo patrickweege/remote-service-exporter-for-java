@@ -3,7 +3,7 @@ package com.pw.ejv.cc.test.servlet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import com.pw.ejb.cc.commons.rpc.servlet.AbstractLookupServlet;
+import pw.rpc.service.exporter.commons.servlet.AbstractLookupServlet;
 
 @WebServlet(urlPatterns = { "/lookup/*" })
 public class TestLookupServlet extends AbstractLookupServlet {

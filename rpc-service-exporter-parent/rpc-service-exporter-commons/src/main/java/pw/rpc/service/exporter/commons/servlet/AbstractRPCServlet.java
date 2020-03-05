@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.rpc.servlet;
+package pw.rpc.service.exporter.commons.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 
-import com.pw.ejb.cc.commons.command.remote.RPCMessage;
-import com.pw.ejb.cc.commons.serialization.SerializationUtil;
+import pw.rpc.service.exporter.commons.command.RPCMessage;
+import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public abstract class AbstractRPCServlet extends AbstractJCCServlet {
 

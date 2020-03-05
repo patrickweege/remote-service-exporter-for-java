@@ -12,17 +12,12 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>rpc-service-exporter-commons</artifactId>
+	<artifactId>rpc-service-exporter-commons-client</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>rpc-service-exporter-commons-client</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>rpc-service-exporter-logging</artifactId>
@@ -40,9 +35,14 @@
 			<version>4.4</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.5.11</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>

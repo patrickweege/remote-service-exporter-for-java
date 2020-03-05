@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.rpc.servlet;
+package pw.rpc.service.exporter.commons.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -7,9 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pw.ejb.cc.commons.command.remote.RemoteCommand;
-import com.pw.ejb.cc.commons.proxy.ProxyUtil;
-import com.pw.ejb.cc.commons.serialization.SerializationUtil;
+import pw.rpc.service.exporter.commons.command.RemoteCommand;
+import pw.rpc.service.exporter.commons.proxy.ProxyUtil;
+import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public abstract class AbstractLookupServlet extends AbstractJCCServlet {
 

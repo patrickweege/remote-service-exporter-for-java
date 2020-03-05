@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.commons.proxy;
+package pw.rpc.service.exporter.commons.proxy;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
