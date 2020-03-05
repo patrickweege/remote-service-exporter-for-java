@@ -1,8 +1,8 @@
-package com.pw.ejb.cc.test.ejb.impl;
+package pw.rpc.exporter.test.bean.services.impl;
 
 import javax.ejb.Stateless;
 
-import com.pw.ejb.cc.test.ejb.HelloWorldBeanLocal;
+import pw.rpc.exporter.test.services.HelloWorldBeanLocal;
 
 /**
  * Session Bean implementation class HelloWorldBean

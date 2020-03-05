@@ -17,12 +17,13 @@ import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public class RPCLookupService {
 
-	public static <T extends Object> T lookup(String lookupEndpoint, String beanName)
+	public static <T extends Object> T lookup(String lookupEndpoint)
 			throws IOException, URISyntaxException {
 
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-			URI uri = new URIBuilder(lookupEndpoint).setParameter("bean", beanName).build();
+			//URI uri = new URIBuilder(lookupEndpoint).setParameter("bean", beanName).build();
+			URI uri = new URIBuilder(lookupEndpoint).build();
 			HttpGet httpget = new HttpGet(uri);
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			HttpResponse response = httpclient.execute(httpget);
@@ -43,14 +44,4 @@ public class RPCLookupService {
 		}
 
 	}
-
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		List l = RPCLookupService.lookup("http://localhost:8080/pw-ejb-cc-test-war/lookup", "ejb/meisterlist");
-		
-		Object element = l.get(1);
-		
-		System.out.println(element);
-		
-	}
-
 }

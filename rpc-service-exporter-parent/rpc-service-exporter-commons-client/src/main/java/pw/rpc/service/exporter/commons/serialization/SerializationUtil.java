@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 public class SerializationUtil {
@@ -25,6 +26,17 @@ public class SerializationUtil {
 		}
 	}
 
+	public static void serialize(Object object, OutputStream out) {
+		try(ObjectOutputStream oout = new ObjectOutputStream(out)) {
+			oout.writeObject(object);
+			oout.flush();
+			oout.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
 	public static <T extends Serializable> T deserialize(byte[] bytes) {
 		try (ByteArrayInputStream bain = new ByteArrayInputStream(bytes);
 				ObjectInputStream ois = new ObjectInputStream(bain)) {

@@ -7,7 +7,6 @@ public class ProxyTest1 {
 		IHelloFacade facade = (IHelloFacade) DebugProxy.newInstance(IHelloFacade.class);
 	    facade.sayHello("Patrick");
 	    
-		
 	}
 
 }

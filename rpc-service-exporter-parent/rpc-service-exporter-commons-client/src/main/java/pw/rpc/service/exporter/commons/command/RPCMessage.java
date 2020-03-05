@@ -16,15 +16,13 @@ import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
 public class RPCMessage implements Serializable {
 
-	private final String rpcEndPoint;
-	private final String rpcBeanReference;
+	private final String rpcInvokeEndpoint;
 	private final String rpcMethodName;
 	private final Object[] rpcArguments;
 	private final Class<?>[] rpcMethodParameterTypes;
 
-	public RPCMessage(String rpcEndPoint, String rpcBeanReference, Method rpcMethod, Object[] rpcArguments) {
-		this.rpcEndPoint = rpcEndPoint;
-		this.rpcBeanReference = rpcBeanReference;
+	public RPCMessage(String rpcInvokeEndpoint, Method rpcMethod, Object[] rpcArguments) {
+		this.rpcInvokeEndpoint = rpcInvokeEndpoint;
 		this.rpcMethodName = rpcMethod.getName();
 		this.rpcMethodParameterTypes = rpcMethod.getParameterTypes();
 		this.rpcArguments = rpcArguments;
@@ -42,15 +40,15 @@ public class RPCMessage implements Serializable {
 		return rpcArguments;
 	}
 	
-	public String getRpcBeanReference() {
-		return rpcBeanReference;
+	public String getRPCInvokeEndpoint() {
+		return rpcInvokeEndpoint;
 	}
 	
 	public <T extends Serializable> T executeRPCCall() {
 		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			byte[] serialized = SerializationUtil.serialize(this);
 
-			HttpPost httpPost = new HttpPost(rpcEndPoint);
+			HttpPost httpPost = new HttpPost(rpcInvokeEndpoint);
 
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.addTextBody("username", "John");

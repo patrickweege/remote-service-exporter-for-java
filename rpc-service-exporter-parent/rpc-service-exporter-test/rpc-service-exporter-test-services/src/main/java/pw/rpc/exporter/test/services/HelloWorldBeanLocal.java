@@ -1,4 +1,4 @@
-package com.pw.ejb.cc.test.ejb;
+package pw.rpc.exporter.test.services;
 
 import javax.ejb.Local;
 
