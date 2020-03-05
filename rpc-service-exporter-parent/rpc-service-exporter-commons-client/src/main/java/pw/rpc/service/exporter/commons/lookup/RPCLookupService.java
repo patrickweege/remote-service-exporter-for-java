@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 import pw.rpc.service.exporter.commons.serialization.SerializationUtil;
 
-public class CCLookup {
+public class RPCLookupService {
 
 	public static <T extends Object> T lookup(String lookupEndpoint, String beanName)
 			throws IOException, URISyntaxException {
@@ -45,7 +45,7 @@ public class CCLookup {
 	}
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
-		List l = CCLookup.lookup("http://localhost:8080/pw-ejb-cc-test-war/lookup", "ejb/meisterlist");
+		List l = RPCLookupService.lookup("http://localhost:8080/pw-ejb-cc-test-war/lookup", "ejb/meisterlist");
 		
 		Object element = l.get(1);
 		
