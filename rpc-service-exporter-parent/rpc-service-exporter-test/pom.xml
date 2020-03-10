@@ -14,13 +14,20 @@
 
 	<artifactId>rpc-service-exporter-test</artifactId>
 	<packaging>pom</packaging>
-
 	<name>${project.groupId}:${project.artifactId}</name>
+
+	<properties>
+		<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
+	
+	</properties>
 	
 	<modules>
 		<module>rpc-service-exporter-test-services</module>
 		<module>rpc-service-exporter-test-services-impl</module>
+		<module>rpc-service-exporter-test-services-webapp-spring</module>
+		<!-- 
 		<module>rpc-service-exporter-test-webapp</module>
+		 -->
 	</modules>
 	
 </project>
