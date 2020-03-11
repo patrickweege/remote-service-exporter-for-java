@@ -6,28 +6,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import pw.rpc.service.exporter.commons.factory.ExportedService;
-import pw.rpc.service.exporter.commons.factory.ServiceExporterProvider;
-import rpc.service.exporter.test.services.impl.HelloWorldBean;
+import rpc.service.exporter.commons.factory.ExportedService;
+import rpc.service.exporter.commons.factory.ServiceExporterProvider;
+import rpc.service.exporter.test.services.dreamsailboat.impl.DreamSailboatServiceImpl;
+import rpc.service.exporter.test.services.hello.impl.HelloWorldBean;
+import rpc.service.exporter.test.services.tree.impl.TreeServiceImpl;
 
 public class TestServiceExporterProvider implements ServiceExporterProvider {
 
 	private static final Map<String, ExportedService> serviceMap;
 	static {
-		
-		ArrayList<String> yachtList = new ArrayList<>();
-		yachtList.add("Gunboat");
-		yachtList.add("Amel-60ft");
-		yachtList.add("Sirius-DS-40ft");
-		InnerExportedService expServiceYachList = new InnerExportedService("MyDreamSailBoatList", yachtList);
+
+		InnerExportedService expServiceTree = new InnerExportedService("TreeService", new TreeServiceImpl());
+
+		InnerExportedService expServiceYachList = new InnerExportedService("MyDreamSailBoatList", new DreamSailboatServiceImpl());
 		
 		InnerExportedService expServiceHelloWorld = new InnerExportedService("HelloWorldService", new HelloWorldBean());
 
+		List<String> simpleList = new ArrayList<>();
+		simpleList.add("Element-1");
+		simpleList.add("Element-2");
+		InnerExportedService expServiceSimpleList = new InnerExportedService("SimpleArrayList", simpleList);
 		
 		serviceMap = new HashMap<>();
 		
+		serviceMap.put(expServiceTree.getServiceName(), expServiceTree);
 		serviceMap.put(expServiceYachList.getServiceName(), expServiceYachList);
 		serviceMap.put(expServiceHelloWorld.getServiceName(), expServiceHelloWorld);
+		serviceMap.put(expServiceSimpleList.getServiceName(), expServiceSimpleList);
 	}
 
 	@Override
@@ -39,8 +45,6 @@ public class TestServiceExporterProvider implements ServiceExporterProvider {
 	public Object getService(String serviceName) {
 		return serviceMap.get(serviceName).getService();
 	}
-	
-	
 	
 	public static class InnerExportedService implements ExportedService {
 

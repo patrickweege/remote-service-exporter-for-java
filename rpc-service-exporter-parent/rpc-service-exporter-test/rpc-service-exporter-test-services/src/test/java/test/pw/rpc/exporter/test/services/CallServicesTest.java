@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import pw.rpc.service.exporter.commons.lookup.RPCLookupService;
-import rpc.service.exporter.test.services.HelloWorldBeanLocal;
+import rpc.service.exporter.commons.client.lookup.RPCLookupService;
+import rpc.service.exporter.test.services.hello.HelloWorldBeanLocal;
 
 public class CallServicesTest {
 	

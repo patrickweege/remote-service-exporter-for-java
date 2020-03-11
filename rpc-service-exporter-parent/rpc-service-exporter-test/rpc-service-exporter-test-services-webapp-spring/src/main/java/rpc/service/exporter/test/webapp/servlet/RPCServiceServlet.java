@@ -4,7 +4,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 
-import pw.rpc.service.exporter.commons.servlet.AbstractRPCServiceServlet;
+import rpc.service.exporter.commons.servlet.AbstractRPCServiceServlet;
 
 @WebServlet(urlPatterns = { "/describe/*", "/lookup/*", "/invoke/*" }, //
 		initParams = { //
