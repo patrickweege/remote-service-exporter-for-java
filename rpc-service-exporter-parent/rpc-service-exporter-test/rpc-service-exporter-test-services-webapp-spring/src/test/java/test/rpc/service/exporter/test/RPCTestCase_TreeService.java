@@ -44,7 +44,7 @@ public class RPCTestCase_TreeService {
 	public void testGetBigTree() throws IOException, URISyntaxException {
 		TreeService service = RPCLookupService.lookup(LOOKUP_ENDPOINT);
 		
-		TreeNode rootTree = service.getBigTree(30000);
+		TreeNode rootTree = service.getBigTree(8, 5);
 		
 		assertNotNull(rootTree);
 	}

@@ -16,4 +16,9 @@ public class TreeServiceImpl implements TreeService {
 		return treeDatasource.getTree();
 	}
 
+	@Override
+	public TreeNode getBigTree(int nodesOnLevel, int levels) {
+		return treeDatasource.getBigTree(nodesOnLevel, levels);
+	}
+
 }

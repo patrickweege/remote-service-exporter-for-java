@@ -4,6 +4,6 @@ public interface TreeService {
 
 	public TreeNode getRootTreeNode();
 
-	public TreeNode getBigTree(int nodes, int depth);
+	public TreeNode getBigTree(int nodesOnLevel, int levels);
 
 }
