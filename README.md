@@ -120,7 +120,7 @@ For exemple a Client Test Case
 
 ## Sequence diagrams
 
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
+To See the Sequence Diagram please install the Browser mermaid extension. [github-mermaid-extension](https://github.com/BackMarket/github-mermaid-extension).
 
 ```mermaid
 sequenceDiagram
