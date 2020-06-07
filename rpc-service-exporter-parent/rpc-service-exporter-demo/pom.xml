@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>pw.rpc-service-exporter</groupId>
+		<artifactId>rpc-service-exporter-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<groupId>pw.rpc-service-exporter.demo</groupId>
+	<artifactId>rpc-service-exporter-demo</artifactId>
+	<packaging>pom</packaging>
+	<name>${project.groupId}:${project.artifactId}</name>
+
+	<properties>
+		<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
+		<junit.jupiter.version>5.5.2</junit.jupiter.version>
+		
+	</properties>
+	
+	<modules>
+		<module>rpc-service-exporter-demo-services-interfaces</module>
+		<module>rpc-service-exporter-demo-services-implementation</module>
+		<module>rpc-service-exporter-demo-services-spring-webapp</module>
+		<!-- 
+		<module>rpc-service-exporter-test-webapp</module>
+		 -->
+	</modules>
+	
+</project>
