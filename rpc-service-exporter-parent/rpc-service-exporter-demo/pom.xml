@@ -19,17 +19,43 @@
 
 	<properties>
 		<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
+		<spring-security.version>5.2.2.RELEASE</spring-security.version>
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
-		
+
 	</properties>
-	
+
 	<modules>
 		<module>rpc-service-exporter-demo-services-interfaces</module>
 		<module>rpc-service-exporter-demo-services-implementation</module>
 		<module>rpc-service-exporter-demo-services-spring-webapp</module>
-		<!-- 
-		<module>rpc-service-exporter-test-webapp</module>
-		 -->
+		<!-- <module>rpc-service-exporter-test-webapp</module> -->
 	</modules>
-	
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${spring-security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${spring-security.version}</version>
+			</dependency>
+		</dependencies>
+
+	</dependencyManagement>
+
+
 </project>
