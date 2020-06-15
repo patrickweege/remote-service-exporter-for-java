@@ -1,6 +1,6 @@
 # Welcome to `pw-rpc-service-exporter`
 
-The `pw-rpc-service-exporter` enables your Web Application to Publish Java Services to Java Client´s over HTTP.
+The `pw-rpc-service-exporter` enables your Web Application to Publish Java Services to Java ClientÂ´s over HTTP.
 
 # Get Started
 If you have a Web Application that has a DreamSailBoatList Service, and you want to share this Service with other Java Web App (Swing or other Web-App). You will need to do some Steps.
@@ -89,13 +89,17 @@ This is a Class that knows how to get a Instace of a Service on your App. Here y
 
 #### Annotate the Servlet with some Parameters
 
-    @WebServlet(urlPatterns = { "/describe/*", "/lookup/*", "/invoke/*" }, // 		initParams = { //
-    				@WebInitParam( //
-    						name = AbstractRPCServiceServlet.INIT_RPC_SERVICE_EXPORTER_PROVIDER, //
-    						value = "rpc.service.exporter.test.webapp.service.provider.MyServiceExporterProvider"), //
-    				@WebInitParam(name = AbstractRPCServiceServlet.INIT_LOOKUP_PATH, value = "/lookup"), //
-    				@WebInitParam(name = AbstractRPCServiceServlet.INIT_DESCRIBE_PATH, value = "/describe"), //
-    				@WebInitParam(name = AbstractRPCServiceServlet.INIT_INVOKE_PATH, value = "/invoke") // 		}// ) @MultipartConfig public class RPCServiceServlet extends AbstractRPCServiceServlet {
+    @WebServlet(urlPatterns = { "/describe/*", "/lookup/*", "/invoke/*" }, //
+    	initParams = { //
+    		@WebInitParam( //
+    			name = AbstractRPCServiceServlet.INIT_RPC_SERVICE_EXPORTER_PROVIDER, //
+    			value = "rpc.service.exporter.test.webapp.service.provider.MyServiceExporterProvider"), //
+    		@WebInitParam(name = AbstractRPCServiceServlet.INIT_LOOKUP_PATH, value = "/lookup"), //
+    		@WebInitParam(name = AbstractRPCServiceServlet.INIT_DESCRIBE_PATH, value = "/describe"), //
+    		@WebInitParam(name = AbstractRPCServiceServlet.INIT_INVOKE_PATH, value = "/invoke") //
+        }
+    )
+    @MultipartConfig public class RPCServiceServlet extends AbstractRPCServiceServlet {
 
  - The `AbstractRPCServiceServlet.INIT_LOOKUP_PATH` defines the Service Lookup Path. Path to retrive the Service Object/Bean
  - The `AbstractRPCServiceServlet.INIT_DESCRIBE_PATH` defines the Service Describe Path. Description of the Services Publishied
