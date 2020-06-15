@@ -99,7 +99,8 @@ This is a Class that knows how to get a Instace of a Service on your App. Here y
     		@WebInitParam(name = AbstractRPCServiceServlet.INIT_INVOKE_PATH, value = "/invoke") //
         }
     )
-    @MultipartConfig public class RPCServiceServlet extends AbstractRPCServiceServlet {
+    @MultipartConfig 
+    public class RPCServiceServlet extends AbstractRPCServiceServlet {
 
  - The `AbstractRPCServiceServlet.INIT_LOOKUP_PATH` defines the Service Lookup Path. Path to retrive the Service Object/Bean
  - The `AbstractRPCServiceServlet.INIT_DESCRIBE_PATH` defines the Service Describe Path. Description of the Services Publishied
