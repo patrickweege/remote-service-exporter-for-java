@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>pw.rpc-service-exporter</groupId>
-	<artifactId>rpc-service-exporter-parent</artifactId>
+	<groupId>pw.rse4j</groupId>
+	<artifactId>rse4j-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -20,9 +20,9 @@
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<modules>
-		<module>rpc-service-exporter-api-server</module>
-		<module>rpc-service-exporter-api-client</module>
-		<module>rpc-service-exporter-demo</module>
+		<module>rse4j-api-client</module>
+		<module>rse4j-api-server</module>
+		<module>rse4j-demo</module>
 	</modules>
 
 	<distributionManagement>

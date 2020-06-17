@@ -6,13 +6,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>pw.rpc-service-exporter.demo</groupId>
-		<artifactId>rpc-service-exporter-demo</artifactId>
+		<groupId>pw.rse4j.demo</groupId>
+		<artifactId>rse4j-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>rpc-service-exporter-demo-services-spring-webapp</artifactId>
+	<artifactId>rse4j-demo-services-spring-webapp</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -21,13 +21,13 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>pw.rpc-service-exporter.api</groupId>		
-			<artifactId>rpc-service-exporter-api-server</artifactId>
+			<groupId>pw.rse4j.api</groupId>
+			<artifactId>rse4j-api-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>rpc-service-exporter-demo-services-implementation</artifactId>
+			<artifactId>rse4j-demo-services-implementation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -51,23 +51,13 @@
 			</exclusions>
 		</dependency>
 
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-security</artifactId>
-		<version>${spring.boot.version}</version>
-	</dependency>
-	
-		<!-- 
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-web</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${spring.boot.version}</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		</dependency>
- 		-->
- 		
+
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>

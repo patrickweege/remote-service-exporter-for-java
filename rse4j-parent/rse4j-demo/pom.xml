@@ -6,14 +6,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>pw.rpc-service-exporter</groupId>
-		<artifactId>rpc-service-exporter-parent</artifactId>
+		<groupId>pw.rse4j</groupId>
+		<artifactId>rse4j-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<groupId>pw.rpc-service-exporter.demo</groupId>
-	<artifactId>rpc-service-exporter-demo</artifactId>
+	<groupId>pw.rse4j.demo</groupId>
+	<artifactId>rse4j-demo</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 
@@ -25,9 +25,9 @@
 	</properties>
 
 	<modules>
-		<module>rpc-service-exporter-demo-services-interfaces</module>
-		<module>rpc-service-exporter-demo-services-implementation</module>
-		<module>rpc-service-exporter-demo-services-spring-webapp</module>
+		<module>rse4j-demo-services-implementation</module>
+		<module>rse4j-demo-services-interfaces</module>
+		<module>rse4j-demo-services-spring-webapp</module>
 		<!-- <module>rpc-service-exporter-test-webapp</module> -->
 	</modules>
 

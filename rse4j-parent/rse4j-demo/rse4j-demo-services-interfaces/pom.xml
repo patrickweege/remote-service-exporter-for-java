@@ -6,27 +6,27 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>pw.rpc-service-exporter.demo</groupId>
-		<artifactId>rpc-service-exporter-demo</artifactId>
+		<groupId>pw.rse4j.demo</groupId>
+		<artifactId>rse4j-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>rpc-service-exporter-demo-services-interfaces</artifactId>
+	<artifactId>rse4j-demo-services-interfaces</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>pw.rpc-service-exporter.api</groupId>
-			<artifactId>rpc-service-exporter-api-server</artifactId>
+			<groupId>pw.rse4j.api</groupId>
+			<artifactId>rse4j-api-server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>pw.rpc-service-exporter.api</groupId>
-			<artifactId>rpc-service-exporter-api-client</artifactId>
+			<groupId>pw.rse4j.api</groupId>
+			<artifactId>rse4j-api-client</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
