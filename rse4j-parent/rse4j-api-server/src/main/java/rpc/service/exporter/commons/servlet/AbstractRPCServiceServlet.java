@@ -199,6 +199,7 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 
 		String serviceName = StringUtils.substringAfterLast(requestURL, servletPath);
 		serviceName = StringUtils.removeStart(serviceName, "/");
+		serviceName = StringUtils.substringBefore(serviceName, "/");
 
 		return serviceName;
 	}
