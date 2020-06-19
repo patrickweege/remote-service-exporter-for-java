@@ -7,9 +7,8 @@ import java.util.Set;
 
 public class ProxyUtil {
 	
-	public static <T extends Object> T getRemoteProxy(Object remoteObject, ICommand delegateCommand) {
-		Collection<Class<?>> interfaces = ProxyUtil.getInterfaces(remoteObject.getClass());
-		
+	public static <T extends Object> T getRemoteProxy(Class<T> sharedType, ICommand delegateCommand) {
+		Collection<Class<?>> interfaces = ProxyUtil.getInterfaces(sharedType);
 		
 		return DelegatorProxy.getProxyInstance(delegateCommand, interfaces.toArray(new Class<?>[0]));
 	}

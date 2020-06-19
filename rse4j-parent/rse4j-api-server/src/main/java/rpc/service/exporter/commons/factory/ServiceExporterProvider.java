@@ -6,6 +6,6 @@ public interface ServiceExporterProvider {
 	
 	public List<ExportedService> getExportedServices();
 	
-	public Object getService(String serviceName);
+	public ExportedService getService(String serviceName);
 	
 }

@@ -4,10 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +23,10 @@ import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import rpc.service.exporter.commons.client.command.RPCMessage;
 import rpc.service.exporter.commons.client.command.RemoteCommand;
@@ -23,12 +34,15 @@ import rpc.service.exporter.commons.client.data.Null;
 import rpc.service.exporter.commons.client.exception.RPCRemoteException;
 import rpc.service.exporter.commons.client.proxy.ProxyUtil;
 import rpc.service.exporter.commons.client.serialization.SerializationUtil;
+import rpc.service.exporter.commons.factory.ExportedService;
 import rpc.service.exporter.commons.factory.ServiceExporterProvider;
 
 @MultipartConfig
 public abstract class AbstractRPCServiceServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3603079835940554586L;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRPCServiceServlet.class);
 	
 	public static final String INIT_RPC_SERVICE_EXPORTER_PROVIDER = "rpcServiceExporterProvider";
 	public static final String INIT_LOOKUP_PATH = "lookupPath";
@@ -55,6 +69,12 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
+			if(LOGGER.isDebugEnabled()) {
+				String userName = req.getUserPrincipal() == null ? "NULL" : req.getUserPrincipal().getName();
+				StringBuffer requestURL = req.getRequestURL();
+				LOGGER.debug("User '{}' Calls: {}", userName, requestURL);
+			}
+			
 			super.service(req, resp);
 		} catch(RPCRemoteException e) {
 			this.handleRPCException(req, resp, e);
@@ -97,10 +117,10 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 			out = resp.getOutputStream();
 
 			String serviceName = this.getServiceName(req);
-			Object serviceBean = this.rpcServiceExporterBeanProvider.getService(serviceName);
-			String invokeEndpoint = this.getInvokeEndpoint(req);
+			ExportedService exportedService = this.rpcServiceExporterBeanProvider.getService(serviceName);
+			URL invokeBaseURL = this.getInvokeBaseURL(req);
 
-			Object remoteProxy = ProxyUtil.getRemoteProxy(serviceBean, new RemoteCommand(invokeEndpoint));
+			Object remoteProxy = ProxyUtil.getRemoteProxy(exportedService.getSharedInterface(), new RemoteCommand(invokeBaseURL));
 			SerializationUtil.serialize(remoteProxy, out);
 
 		} catch (Exception e) {
@@ -108,7 +128,7 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 		}
 	}
 
-	protected void doInvoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+	protected void doInvoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		OutputStream out = null;
 		try {
 			out = resp.getOutputStream();
@@ -119,9 +139,9 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 			final String rpcMethodName = rpcMessage.getRpcMethodName();
 			final Class<?>[] rpcMethodParameterTypes = rpcMessage.getRpcMethodParameterTypes();
 
-			Object serviceBean = this.rpcServiceExporterBeanProvider.getService(serviceName);
+			ExportedService exportedService = this.rpcServiceExporterBeanProvider.getService(serviceName);
 
-			Object result = MethodUtils.invokeExactMethod(serviceBean, rpcMethodName, rpcArguments,
+			Object result = MethodUtils.invokeExactMethod(exportedService.getService(), rpcMethodName, rpcArguments,
 					rpcMethodParameterTypes);
 
 			if (result == null) {
@@ -131,24 +151,46 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 			SerializationUtil.serialize(result, out);
 			
 		} catch (Exception e) {
-			throw new RPCRemoteException(e);
+			LOGGER.error((String) null, e);
+			
+			this.sendError(e, req, resp);
 		}
 	}
 
-	protected String getInvokeEndpoint(HttpServletRequest req) {
-		String requestURL = req.getRequestURL().toString();
-		String servletPath = req.getServletPath();
+	private Cookie[] getCookies(HttpServletRequest req) {
+		Cookie[] cookies = req.getCookies();
+		
+		return cookies;
+	}
+	
+	private void sendError(Exception e, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.reset();
+		ServletOutputStream out = resp.getOutputStream();
+		resp.setStatus(RPCRemoteException.STATUS_CODE_RPCEXCEPTION);
+
+		SerializationUtil.serialize(new RPCRemoteException(e), out);
+	}
+	
+	protected URL getInvokeBaseURL(HttpServletRequest req) throws MalformedURLException, URISyntaxException {
+		String scheme = req.getScheme();
+		String serverName = req.getServerName();
+		int serverPort = req.getServerPort();
+		String contextPath = req.getContextPath();
 		String serviceName = this.getServiceName(req);
-
-		StringBuilder endpoint = new StringBuilder();
-		endpoint.append(StringUtils.substringBefore(requestURL, servletPath));
-		endpoint.append("/");
-		endpoint.append(this.invokePath);
-		endpoint.append("/");
-		endpoint.append(serviceName);
-
-		return endpoint.toString();
-
+		
+		List<String> segments = URLEncodedUtils.parsePathSegments(contextPath);
+		segments.addAll(URLEncodedUtils.parsePathSegments(this.invokePath));
+		segments.add(serviceName);
+		
+		URI uri = new URIBuilder() //
+				.setScheme(scheme) //
+				.setHost(serverName) //
+				.setPort(serverPort) //
+				.setPath(contextPath) //
+				.setPathSegments(segments) //
+				.build();
+		
+		return uri.toURL();
 	}
 
 	protected String getServiceName(HttpServletRequest req) {
@@ -209,3 +251,4 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 	
 
 }
+

@@ -1,8 +1,10 @@
 package rpc.service.exporter.commons.client.command;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 
-import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import rpc.service.exporter.commons.client.proxy.ICommand;
 
@@ -10,21 +12,18 @@ public class RemoteCommand implements ICommand {
 
 	private static final long serialVersionUID = -3422902019586686684L;
 	
-	private final String rpcServiceEndPoint;
+	private static final transient Logger LOGGER = LoggerFactory.getLogger(RemoteCommand.class);
+	
+	private final URL rpcInvokeBaseURL;
 
-	public RemoteCommand(String rpcServiceEndPoint) {
-		this.rpcServiceEndPoint = rpcServiceEndPoint;
+	public RemoteCommand(URL rpcInvokeBaseURL) {
+		this.rpcInvokeBaseURL = rpcInvokeBaseURL;
 	}
 
 	@Override
 	public Object execute(Method method, Object[] args) throws Throwable {
-		System.out.println("Call: " + rpcServiceEndPoint + "/" + method.getName());
-		if (!ArrayUtils.isEmpty(args)) {
-			for (int i = 0; i < args.length; i++) {
-				System.out.println("ARGS[" + i + "] = " + args[i]);
-			}
-		}
-		RPCMessage rpcMessage = new RPCMessage(rpcServiceEndPoint, method, args);
+		LOGGER.debug("RemoteCommand.execute() of Method {}" + method.getName());
+		RPCMessage rpcMessage = new RPCMessage(rpcInvokeBaseURL, method, args);
 		return rpcMessage.executeRPCCall();
 
 	}

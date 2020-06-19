@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import rpc.service.exporter.commons.factory.BasicExportedService;
 import rpc.service.exporter.commons.factory.ExportedService;
 import rpc.service.exporter.commons.factory.ServiceExporterProvider;
-import rpc.service.exporter.commons.factory.SimpleExportedService;
+import rpc.service.exporter.test.services.dreamsailboat.DreamSailboatService;
 import rpc.service.exporter.test.services.dreamsailboat.impl.DreamSailboatServiceImpl;
+import rpc.service.exporter.test.services.hello.HelloWorldBeanLocal;
 import rpc.service.exporter.test.services.hello.impl.HelloWorldBean;
+import rpc.service.exporter.test.services.tree.TreeService;
 import rpc.service.exporter.test.services.tree.impl.TreeServiceImpl;
 
 public class TestServiceExporterProvider implements ServiceExporterProvider {
@@ -18,16 +21,16 @@ public class TestServiceExporterProvider implements ServiceExporterProvider {
 	private static final Map<String, ExportedService> serviceMap;
 	static {
 
-		InnerExportedService expServiceTree = new InnerExportedService("TreeService", new TreeServiceImpl());
+		BasicExportedService expServiceTree = new BasicExportedService("TreeService", TreeService.class, new TreeServiceImpl());
 
-		InnerExportedService expServiceYachList = new InnerExportedService("MyDreamSailBoatList", new DreamSailboatServiceImpl());
+		BasicExportedService expServiceYachList = new BasicExportedService("MyDreamSailBoatList", DreamSailboatService.class, new DreamSailboatServiceImpl());
 		
-		InnerExportedService expServiceHelloWorld = new InnerExportedService("HelloWorldService", new HelloWorldBean());
+		BasicExportedService expServiceHelloWorld = new BasicExportedService("HelloWorldService", HelloWorldBeanLocal.class, new HelloWorldBean());
 
 		List<String> simpleList = new ArrayList<>();
 		simpleList.add("Element-1");
 		simpleList.add("Element-2");
-		InnerExportedService expServiceSimpleList = new InnerExportedService("SimpleArrayList", simpleList);
+		BasicExportedService expServiceSimpleList = new BasicExportedService("SimpleArrayList", List.class, simpleList);
 		
 		serviceMap = new HashMap<>();
 		
@@ -43,32 +46,9 @@ public class TestServiceExporterProvider implements ServiceExporterProvider {
 	}
 
 	@Override
-	public Object getService(String serviceName) {
-		return serviceMap.get(serviceName).getService();
+	public ExportedService getService(String serviceName) {
+		return serviceMap.get(serviceName);
 	}
-	
-	public static class InnerExportedService implements ExportedService {
-
-		private final String serviceName;
-		private final Object serviceObject;
-
-		public InnerExportedService(String serviceName, Object serviceObject) {
-			this.serviceName = serviceName;
-			this.serviceObject = serviceObject;
-		}
-		
-		@Override
-		public String getServiceName() {
-			return serviceName;
-		}
-
-		@Override
-		public Object getService() {
-			return serviceObject;
-		}
-		
-	}
-
 	
 	
 }

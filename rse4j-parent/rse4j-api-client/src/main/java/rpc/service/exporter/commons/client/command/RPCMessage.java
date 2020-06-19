@@ -1,33 +1,45 @@
 package rpc.service.exporter.commons.client.command;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import rpc.service.exporter.commons.client.data.Null;
 import rpc.service.exporter.commons.client.exception.RPCException;
 import rpc.service.exporter.commons.client.exception.RPCRemoteException;
+import rpc.service.exporter.commons.client.security.CookieStoreFactory;
 import rpc.service.exporter.commons.client.serialization.SerializationUtil;
 
 public class RPCMessage implements Serializable {
 
 	private static final long serialVersionUID = -3691582614948183507L;
 	
-	private final String rpcInvokeEndpoint;
+	Logger LOGGER = LoggerFactory.getLogger(RPCMessage.class);
+	
+	private final URL rpcInvokeBaseURL;
 	private final String rpcMethodName;
 	private final Object[] rpcArguments;
 	private final Class<?>[] rpcMethodParameterTypes;
-
-	public RPCMessage(String rpcInvokeEndpoint, Method rpcMethod, Object[] rpcArguments) {
-		this.rpcInvokeEndpoint = rpcInvokeEndpoint;
+	
+	public RPCMessage(URL rpcInvokeBaseURL, Method rpcMethod, Object[] rpcArguments) {
+		this.rpcInvokeBaseURL = rpcInvokeBaseURL;
 		this.rpcMethodName = rpcMethod.getName();
 		this.rpcMethodParameterTypes = rpcMethod.getParameterTypes();
 		this.rpcArguments = rpcArguments;
@@ -45,22 +57,25 @@ public class RPCMessage implements Serializable {
 		return rpcArguments;
 	}
 	
-	public String getRPCInvokeEndpoint() {
-		return rpcInvokeEndpoint;
+	public URL getInvokeBaseURL() {
+		return rpcInvokeBaseURL;
 	}
 	
 	public <T extends Serializable> T executeRPCCall() {
-		try (CloseableHttpClient client = HttpClients.createDefault()) {
+		final CookieStore cookieStore = CookieStoreFactory.getInstance().getCookieStore();
+		
+		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build()) {
 			byte[] serialized = SerializationUtil.serialize(this);
 
-			HttpPost httpPost = new HttpPost(rpcInvokeEndpoint);
-
+			URI invokeMethodURI = this.getInvokeMethod();
+			
+			HttpPost httpPost = new HttpPost(invokeMethodURI);
+			
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.addBinaryBody("RPCMessage", serialized);
 
 			HttpEntity multipart = builder.build();
 			httpPost.setEntity(multipart);
-			
 			
 			CloseableHttpResponse response = client.execute(httpPost);
 			
@@ -81,14 +96,30 @@ public class RPCMessage implements Serializable {
 				
 				RPCRemoteException e = SerializationUtil.deserialize(bytes);
 				
-				throw new RPCException();
+				throw new RPCException(e);
 			} else {
 				throw new RuntimeException(response.getStatusLine().getReasonPhrase());	
 			}
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	private URI getInvokeMethod() throws MalformedURLException, URISyntaxException {
+		URIBuilder builder = new URIBuilder(this.rpcInvokeBaseURL.toURI());
+		List<String> segments = builder.getPathSegments();
+		segments.add(this.rpcMethodName);
+		builder.setPathSegments(segments);
+		return builder.build();
+	}
+	
+	
+	public static void main(String[] args) {
+		List<String> splitPathSegments = URLEncodedUtils.parsePathSegments("/platin/teste");
+		
+		System.out.println(splitPathSegments);
+	}
+	
 
 }

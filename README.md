@@ -111,17 +111,16 @@ This is a Class that knows how to get a Instace of a Service on your App. Here y
 ## On Client Side (Swing App, or dependent Web-App)
 For exemple a Client Test Case
 
+
+```
     @Test
     public void testCallMyDreamSailingBoatService() throws IOException, URISyntaxException {
     	final String LOOKUP_ENDPOINT = "http://localhost:8080/rpcServiceExporterTest/lookup/MyDreamSailBoatList";
-    	
 		DreamSailboatService service = RPCLookupService.lookup(LOOKUP_ENDPOINT);
-
 		String first = service.getFirst();
-
 		assertEquals("Gunboat", first);
-
     }
+```
 
 ## Sequence diagrams
 

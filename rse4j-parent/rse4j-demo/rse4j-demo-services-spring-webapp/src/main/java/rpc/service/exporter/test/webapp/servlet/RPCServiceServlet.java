@@ -1,8 +1,13 @@
 package rpc.service.exporter.test.webapp.servlet;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import rpc.service.exporter.commons.servlet.AbstractRPCServiceServlet;
 
@@ -21,4 +26,13 @@ public class RPCServiceServlet extends AbstractRPCServiceServlet {
 
 	private static final long serialVersionUID = 5610644570034789146L;
 
+	
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		super.service(req, resp);
+		
+		
+		
+	}
 }

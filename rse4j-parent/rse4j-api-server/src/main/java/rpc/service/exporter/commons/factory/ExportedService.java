@@ -6,4 +6,7 @@ public interface ExportedService {
 
 	public Object getService();
 	
+	public Class<?> getSharedInterface(); 
+	
+	
 }
