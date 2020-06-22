@@ -1,9 +1,8 @@
 package rpc.service.exporter.commons.client.command;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
@@ -12,7 +11,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -62,14 +60,16 @@ public class RPCMessage implements Serializable {
 	}
 	
 	public <T extends Serializable> T executeRPCCall() {
+		LOGGER.debug("[BEGIN] - executeRPCCall()");
 		final CookieStore cookieStore = CookieStoreFactory.getInstance().getCookieStore();
 		
 		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build()) {
-			byte[] serialized = SerializationUtil.serialize(this);
-
-			URI invokeMethodURI = this.getInvokeMethod();
 			
-			HttpPost httpPost = new HttpPost(invokeMethodURI);
+			LOGGER.debug("[START] Serialization of Arguments");
+			byte[] serialized = SerializationUtil.serialize(this);
+			LOGGER.debug("[END] Serialization of Arguments");
+			
+			HttpPost httpPost = new HttpPost(rpcInvokeBaseURL.toURI());
 			
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.addBinaryBody("RPCMessage", serialized);
@@ -77,20 +77,28 @@ public class RPCMessage implements Serializable {
 			HttpEntity multipart = builder.build();
 			httpPost.setEntity(multipart);
 			
+			LOGGER.debug("[START] Execute Post to {} ", httpPost.getURI());
 			CloseableHttpResponse response = client.execute(httpPost);
+			LOGGER.debug("[END] Execute Post");
+
+
+			final int statusCode = response.getStatusLine().getStatusCode();
+			LOGGER.debug("executeRPCCall - Startus Code was {}", statusCode);
 			
-			if(response.getStatusLine().getStatusCode() == 200) {
+			if(statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 
 				byte[] bytes = EntityUtils.toByteArray(entity);
 
+				LOGGER.debug("[START] Deserialization of Result");
 				T retValue = SerializationUtil.deserialize(bytes);
-
+				LOGGER.debug("[END] Deserialization of Result");
+				
 				if(Null.NULL.equals(retValue)) {
 					retValue = null;
 				}
 				return retValue;
-			} else if(response.getStatusLine().getStatusCode() == RPCRemoteException.STATUS_CODE_RPCEXCEPTION) {
+			} else if(statusCode == RPCRemoteException.STATUS_CODE_RPCEXCEPTION) {
 				HttpEntity entity = response.getEntity();
 				byte[] bytes = EntityUtils.toByteArray(entity);
 				
@@ -100,26 +108,11 @@ public class RPCMessage implements Serializable {
 			} else {
 				throw new RuntimeException(response.getStatusLine().getReasonPhrase());	
 			}
-
-		} catch (Exception e) {
+		} catch (IOException | URISyntaxException e) {
+			LOGGER.error("", e);
 			throw new RuntimeException(e);
+		} finally {
+			LOGGER.debug("[END] - executeRPCCall()");
 		}
 	}
-	
-	private URI getInvokeMethod() throws MalformedURLException, URISyntaxException {
-		URIBuilder builder = new URIBuilder(this.rpcInvokeBaseURL.toURI());
-		List<String> segments = builder.getPathSegments();
-		segments.add(this.rpcMethodName);
-		builder.setPathSegments(segments);
-		return builder.build();
-	}
-	
-	
-	public static void main(String[] args) {
-		List<String> splitPathSegments = URLEncodedUtils.parsePathSegments("/platin/teste");
-		
-		System.out.println(splitPathSegments);
-	}
-	
-
 }

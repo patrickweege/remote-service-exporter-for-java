@@ -14,7 +14,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -157,12 +156,6 @@ public abstract class AbstractRPCServiceServlet extends HttpServlet {
 		}
 	}
 
-	private Cookie[] getCookies(HttpServletRequest req) {
-		Cookie[] cookies = req.getCookies();
-		
-		return cookies;
-	}
-	
 	private void sendError(Exception e, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.reset();
 		ServletOutputStream out = resp.getOutputStream();

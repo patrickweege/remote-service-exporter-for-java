@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import rpc.service.exporter.commons.client.exception.RPCException;
+import rpc.service.exporter.commons.client.exception.RPCRemoteException;
 import rpc.service.exporter.commons.client.lookup.RPCLookupService;
 import rpc.service.exporter.commons.client.security.CookieStoreFactory;
 import rpc.service.exporter.test.services.dreamsailboat.DreamSailboatService;
