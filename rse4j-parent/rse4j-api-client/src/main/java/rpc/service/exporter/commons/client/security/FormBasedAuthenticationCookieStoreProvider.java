@@ -14,7 +14,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-public class FormAuthenticationCookieStoreProvider implements ICookieStoreProvider {
+public class FormBasedAuthenticationCookieStoreProvider implements ICookieStoreProvider {
 
 	private final String userName;
 	private final String password;
@@ -23,7 +23,7 @@ public class FormAuthenticationCookieStoreProvider implements ICookieStoreProvid
 	
 	private CookieStore cookieStore = null;
 
-	public FormAuthenticationCookieStoreProvider(String userName, String password, String protectedURL,
+	public FormBasedAuthenticationCookieStoreProvider(String userName, String password, String protectedURL,
 			String jSecurityCheckURL) {
 		super();
 		this.userName = userName;
