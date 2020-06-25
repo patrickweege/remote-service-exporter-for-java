@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import rpc.service.exporter.commons.client.proxy.DelegatorProxy;
-import rpc.service.exporter.commons.client.proxy.ICommand;
+import rse4j.commons.client.proxy.DelegatorProxy;
+import rse4j.commons.client.proxy.ICommand;
 
 public class TestDelegatorProxy {
 
