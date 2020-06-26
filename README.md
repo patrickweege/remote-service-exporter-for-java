@@ -1,4 +1,4 @@
-# Welcome to `pw-rpc-service-exporter`
+# Welcome to `remote-service-exporter-for-java (rse4j)`
 
 The `pw-rpc-service-exporter` enables your Web Application to Publish Java Services to Java Client´s over HTTP.
 
