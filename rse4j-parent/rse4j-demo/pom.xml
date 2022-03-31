@@ -18,7 +18,7 @@
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<properties>
-		<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
+		<spring.boot.version>2.5.12</spring.boot.version>
 		<spring-security.version>5.2.2.RELEASE</spring-security.version>
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 
